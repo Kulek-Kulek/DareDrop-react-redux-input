@@ -1,0 +1,11 @@
+.username__match {
+    border: 1px solid #000;
+    margin-top: 5px;
+    padding: 3px;
+    font-size: 18px;
+    background-color: #fff;
+}
+
+.username__match {
+    cursor: pointer;
+}

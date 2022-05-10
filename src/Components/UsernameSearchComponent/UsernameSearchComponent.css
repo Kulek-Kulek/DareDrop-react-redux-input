@@ -1,0 +1,19 @@
+.username__label {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.username__input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin-top: 10vh;
+}
+
+.username__input {
+    font-size: 20px;
+    padding: 3px;
+}
