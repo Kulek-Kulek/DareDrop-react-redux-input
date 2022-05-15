@@ -1,19 +1,25 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import './UsernameFoundComponent.css';
 
 const UsernameFoundComponent = props => {
-    const boldLetters = props.lettersTyped.substring(0, props.lettersTyped.length);
-    const letters = props.matchedUsername.slice(props.lettersTyped.length);
+
+    const lettersTyped = useSelector(state => state.inputState.lettersTyped);
+
+
+    const boldLetters = lettersTyped.substring(1, lettersTyped.length);
+    const letters = props.matchedUsername.slice(lettersTyped.length);
+    const firstLetter = props.matchedUsername.charAt(0).toUpperCase(0);
 
 
     return (
         <span
             className="username__match"
-            onClick={(e) => props.click(e)}
+            onClick={props.click}
             id={props.id}
         >
-            <b>{boldLetters}</b>{letters}
+            <b>{firstLetter + boldLetters}</b>{letters}
         </span>
     );
 }

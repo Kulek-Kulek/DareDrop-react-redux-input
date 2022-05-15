@@ -1,0 +1,13 @@
+export const FETCH_DATA_FROM_REMOTE_API = 'FETCH_DATA_FROM_REMOTE_API';
+
+export const FETCH_DATA = 'FETCH_DATA';
+
+export const USER_PICKED = 'USER_PICKED';
+
+export const LETTERS_TYPED = 'LETTERS_TYPED';
+
+export const MATCHING_USERS = 'MATCHING_USERS';
+
+export const FETCHING_STATUS = 'FETCHING_STATUS';
+
+export const TOGGLE_MODAL = 'TOGGLE_MODAL';

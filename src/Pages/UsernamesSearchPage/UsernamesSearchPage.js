@@ -2,10 +2,15 @@ import React from 'react';
 
 import UsernameMainComponent from '../../Components/UsernameMainComponent/UsernameMainComponent';
 
+import './UsernamesSearchPage.css';
 
 const UsernamesSearchPage = () => {
+
     return (
-        <UsernameMainComponent />
+        <main>
+            <UsernameMainComponent />
+        </main>
+
     );
 }
 

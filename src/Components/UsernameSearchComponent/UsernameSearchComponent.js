@@ -1,74 +1,96 @@
-import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 
 import Input from "../../Shared/Input/Input";
+import Button from "../../Shared/Button/Button";
 import UsernameFoundComponent from "../UserNameFoundComponent/UsernameFoundComponent";
+import Modal from '../../Shared/Modal/Modal';
+import * as actions from '../../Store/Actions/action-index';
 
 import './UsernameSearchComponent.css';
 
 const UsernameSearchComponent = props => {
-    const [inputValue, setInputValue] = useState('');
 
-    const [usernames, setUsernames] = useState([]);
+    const { matchingUsers, userPicked } = useSelector(state => state.usersData);
 
-    const [usernameMatch, setUsernameMatch] = useState();
+    const lettersTyped = useSelector(state => state.inputState.lettersTyped);
 
+    const modalActive = useSelector(state => state.modalStatus.modalIsActive);
 
+    const loadingError = useSelector(state => state.fetchingStatus.error);
 
-    useEffect(() => {
-        const fetchUsernames = async () => {
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-            setUsernames(response.data);
-        }
-        fetchUsernames();
-    }, []);
+    const dispatch = useDispatch();
 
 
     const searchUserNameHandler = e => {
         const lettersTyped = e.target.value;
-        setInputValue(lettersTyped);
-        let matchedUsernames = [];
-        if (lettersTyped) {
-            matchedUsernames = usernames.filter(username => username.username.toLowerCase().startsWith(lettersTyped.toLowerCase()));
-        }
-        setUsernameMatch(matchedUsernames);
+        dispatch(actions.lettersTyped(lettersTyped));
+        dispatch(actions.matchingUsers(lettersTyped, false));
     }
+
 
     const matchedUserPicked = e => {
         const userPickedId = e.target.id;
-        const userPicked = usernameMatch.filter(user => user.id.toString() === userPickedId.toString());
-        Array.isArray(userPicked) && userPicked.length > 0 && setInputValue(userPicked[0].username);
-        setUsernameMatch([]);
+        if (userPickedId) {
+            dispatch(actions.userPicked(userPickedId));
+            dispatch(actions.matchingUsers(null, true));
+        }
+    }
+
+
+    const submitUsernameHandler = e => {
+        e.preventDefault();
+        dispatch(actions.lettersTyped(''));
+        dispatch(actions.modalState(true, true));
     }
 
 
     let matchedUsers;
-    if (usernameMatch) {
-        matchedUsers = usernameMatch.map(userMatch => (
-            <UsernameFoundComponent
-                key={userMatch.id}
-                matchedUsername={userMatch.username}
-                click={matchedUserPicked}
-                id={userMatch.id}
-                lettersTyped={inputValue}
-            />
-        ));
-    }
+
+    matchedUsers = matchingUsers.map(userMatch => (
+        <UsernameFoundComponent
+            key={userMatch.id}
+            matchedUsername={userMatch.username}
+            click={matchedUserPicked}
+            id={userMatch.id}
+        />
+    ));
+
 
     return (
-        <div className="username__input-wrapper">
-            <Input
-                inputType='input'
-                placeholder='Type username here'
-                id='username-input'
-                label='Start searching a user'
-                classLabel='username__label'
-                class='username__input'
-                change={searchUserNameHandler}
-                value={inputValue}
-            />
-            {matchedUsers}
-        </div>
+        <>
+            {modalActive ?
+                <Modal
+                    classHeading='modal__heading--success'
+                    messageHeading='Success'
+                    mainMessage='Your form has been submitted. Thank you.'
+                /> :
+                <div className="username__form-wrapper">
+                    <form className="username__form" onSubmit={submitUsernameHandler}>
+                        <Input
+                            inputType='input'
+                            placeholder='Type username here'
+                            id='username-input'
+                            label='Start searching users'
+                            classLabel='username__label'
+                            class='username__input'
+                            change={searchUserNameHandler}
+                            value={userPicked ? userPicked.username : lettersTyped}
+                            disabled={loadingError}
+                        />
+                        <Button
+                            type='submit'
+                            text='Submit'
+                            class='username__button'
+                            disabled={loadingError || Object.keys(userPicked).length === 0}
+                        />
+                    </form>
+                    <div className="usernames__matches">
+                        {matchedUsers}
+                    </div>
+                </div>}
+        </>
     );
 }
 

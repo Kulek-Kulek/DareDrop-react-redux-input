@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import './Input.css';
 
@@ -16,9 +16,8 @@ const Input = props => {
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={props.change}
-                onBlur={props.blur}
-                className={props.class}
                 disabled={props.disabled}
+                className={props.class}
             />
             break;
         default: inputType = <textarea
