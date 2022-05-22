@@ -20,6 +20,14 @@ export const userPicked = userPicked => {
 }
 
 
+export const lettersTyped = letters => {
+    return {
+        type: actionTypes.LETTERS_TYPED,
+        letters
+    }
+}
+
+
 export const fetchData = (users = []) => {
     return {
         type: actionTypes.FETCH_DATA,

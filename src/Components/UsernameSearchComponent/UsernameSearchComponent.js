@@ -12,9 +12,7 @@ import './UsernameSearchComponent.css';
 
 const UsernameSearchComponent = props => {
 
-    const { matchingUsers, userPicked } = useSelector(state => state.usersData);
-
-    const lettersTyped = useSelector(state => state.inputState.lettersTyped);
+    const { matchingUsers, userPicked, inputValue } = useSelector(state => state.usersData);
 
     const modalActive = useSelector(state => state.modalStatus.modalIsActive);
 
@@ -76,7 +74,7 @@ const UsernameSearchComponent = props => {
                             classLabel='username__label'
                             class='username__input'
                             change={searchUserNameHandler}
-                            value={userPicked ? userPicked.username : lettersTyped}
+                            value={inputValue}
                             disabled={loadingError}
                         />
                         <Button

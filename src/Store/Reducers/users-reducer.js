@@ -3,7 +3,8 @@ import * as actionTypes from '../Actions/actionTypes';
 const initialState = {
     users: [],
     userPicked: {},
-    matchingUsers: []
+    matchingUsers: [],
+    inputValue: ''
 }
 
 const usersDataReducer = (state = initialState, action) => {
@@ -23,7 +24,8 @@ const usersDataReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                userPicked: updatedUserPicked
+                userPicked: updatedUserPicked,
+                inputValue: updatedUserPicked.username || ''
             }
 
         case actionTypes.MATCHING_USERS:
@@ -34,6 +36,12 @@ const usersDataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 matchingUsers: updatedMatchingUsers
+            }
+
+        case actionTypes.LETTERS_TYPED:
+            return {
+                ...state,
+                inputValue: action.letters
             }
 
         default: return state;

@@ -2,13 +2,9 @@ export {
     fetchDataFromRemoteAPI,
     fetchData,
     userPicked,
-    matchingUsers
-} from './usersData-actions';
-
-
-export {
+    matchingUsers,
     lettersTyped
-} from './input-actions.js';
+} from './usersData-actions';
 
 export {
     modalState

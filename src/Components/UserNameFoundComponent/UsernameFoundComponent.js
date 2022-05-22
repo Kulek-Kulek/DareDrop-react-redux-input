@@ -5,7 +5,7 @@ import './UsernameFoundComponent.css';
 
 const UsernameFoundComponent = props => {
 
-    const lettersTyped = useSelector(state => state.inputState.lettersTyped);
+    const lettersTyped = useSelector(state => state.usersData.inputValue);
 
 
     const boldLetters = lettersTyped.substring(1, lettersTyped.length);
